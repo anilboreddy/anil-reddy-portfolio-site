@@ -1,0 +1,7 @@
+node_modules/
+tmp/
+*.zip
+*.tar.gz
+assets/media/thulasivanam-official-trailer.mp4
+assets/media/ee-nagaraniki-emaindi-comedy-scene.mp4
+assets/photos/portfolio-*-1.jpg
