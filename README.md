@@ -1,96 +1,122 @@
-# Anil Reddy — portfolio
+# Anil Reddy Portfolio — 5 Page Static Site
 
-A five-page static portfolio built from the supplied CV, portfolio PDF and film clips. Rich plum, warm white and lime, oversized typography, restrained motion and a film-led layout.
+This project is a complete static portfolio website. No build system is required.
 
-## Open the website
+## Pages
 
-Open `dist/index.html` in your browser. All five pages, documents and videos work without a framework or external font service.
+- `index.html` — Introduction to Anil Reddy
+- `experience.html` — Experience and selected credits
+- `ott.html` — Fit for Content Development / Acquisitions roles at OTT platforms and production houses
+- `work.html` — Films and embedded project videos
+- `gallery.html` — BTS / filmmaking photo archive
 
-For the most accurate local experience, open PowerShell in this project folder and run:
+## Project structure
 
-```powershell
-node build.mjs
-node serve.mjs
+```
+anil-reddy-portfolio-site/
+├── index.html
+├── experience.html
+├── ott.html
+├── work.html
+├── gallery.html
+├── styles.css
+├── script.js
+└── assets/
+    ├── anil-reddy-cv.pdf
+    ├── anil-reddy-portfolio.pdf
+    └── media/
+        ├── thulasivanam-official-trailer.mp4
+        ├── thulasivanam-poster.jpg
+        ├── ee-nagaraniki-emaindi-comedy-scene.mp4
+        └── ene-poster.jpg
 ```
 
-Visit **http://127.0.0.1:8080**. Stop the server with Ctrl+C. If `node` is not recognised on this computer, use:
+## Open it locally
 
-```powershell
-& 'C:/Program Files/nodejs/node.exe' build.mjs
-& 'C:/Program Files/nodejs/node.exe' serve.mjs
+The simplest method is to double-click `index.html`.
+
+For the most accurate local test, run a tiny web server from inside the folder:
+
+### Python
+
+```bash
+python -m http.server 8080
 ```
 
-No dependency installation is needed to build or serve the website. Node 22 or newer is suitable.
+Then open `http://localhost:8080` in your browser.
 
-## Five pages
+### VS Code
 
-| Page | Contents |
-| --- | --- |
-| `index.html` | Introduction, selected film, portrait, statement and contact |
-| `experience.html` | Verified credits, contribution details and education |
-| `ott.html` | Content development/acquisitions fit, evidence and proposed approach |
-| `films.html` | Thulasivanam trailer and Ee Nagaraniki Emaindi scene |
-| `gallery.html` | BTS gallery with captions and keyboard-operated lightbox |
+Install the **Live Server** extension, right-click `index.html`, and choose **Open with Live Server**.
 
-## Change text, colours or media
+## How to add BTS images later
 
-- Edit text and project information in **`build.mjs`**. It generates the five HTML pages; direct edits to those HTML files will be overwritten next time you build.
-- Edit **`styles.css`** for the visual design, including mobile layouts. Main colours: plum `#211525`, white `#f7f3ed`, lime `#d9ed92`.
-- Edit **`script.js`** for menus, video behavior and gallery interactions.
-- Replace the PDFs in `assets/` to update downloadable documents.
-- Run `node build.mjs` after changes. Upload the refreshed **`dist`** folder, not the whole source folder.
-- Run `node --check script.js` and `node validate.mjs` to check syntax, all five routes, local links and deployed media sizes.
+1. Put your images in `assets/media/bts/`.
+2. In `gallery.html`, replace a placeholder block such as:
 
-## Add your BTS photos
-
-The supplied assets do not include BTS photographs. The page intentionally says that the archive is coming soon; the portfolio PDF's decorative images are not misrepresented as real set photographs.
-
-1. Create `assets/bts/` and place your photographs there. Use descriptive filenames and web-sized JPG or WebP images.
-2. Open `gallery-data.js` and replace the empty array:
-
-```javascript
-window.BTS_PHOTOS = [
-  {
-    src: 'assets/bts/thulasivanam-on-set.jpg',
-    alt: 'Anil discussing a scene with the crew on set',
-    caption: 'Thulasivanam — between takes'
-  },
-  {
-    src: 'assets/bts/location-rehearsal.jpg',
-    alt: 'The cast rehearsing together on location',
-    caption: 'Rehearsal on location'
-  }
-];
+```html
+<figure class="gallery-item tall">
+  <div class="gallery-placeholder">...</div>
+</figure>
 ```
 
-3. Use your real filenames and accurate descriptions. Run `node build.mjs`.
+with:
 
-The empty state disappears automatically. Clicking a photograph opens it; arrow buttons or Left/Right keys change photographs, and Escape closes the viewer. No uploads or database are needed.
+```html
+<figure class="gallery-item tall">
+  <img src="assets/media/bts/your-photo.jpg" alt="Behind the scenes on Thulasivanam">
+  <figcaption class="gallery-label"><span>BTS</span><span>Thulasivanam</span></figcaption>
+</figure>
+```
 
-## Film files and playback
+Use `tall`, `wide`, or `square` depending on the photograph.
 
-The original 1080p clips remain intact in `assets/media/`. The deployed site uses smaller 720p H.264/AAC copies, plus an eight-second silent homepage hover preview. These fit the static host's per-file size limit. The originals and PDF page-extraction intermediates are excluded from the publishing output.
+## How to add another film/video
 
-Full videos load when the visitor requests playback, with native controls for sound, seeking and fullscreen. Other films pause when one starts, and offscreen/background-tab videos pause. The silent homepage preview starts only on desktop hover; it is disabled for reduced motion and Save-Data. Posters remain the fallback if preview playback is blocked. No caption tracks were supplied.
+Copy one of the `.film-project` sections in `work.html`, change the title / role / copy, place the new MP4 and poster image inside `assets/media/`, and update the `<source>` and `poster` paths.
 
-The extraction helper `extract-assets.mjs` was used once to read the PDFs. It requires `pdfjs-dist` and `@napi-rs/canvas` if rerun; normal site builds do not use it.
+For faster public websites, Vimeo or YouTube embeds can be used instead of shipping very large MP4 files with the site.
 
-## Host it yourself
+## Hosting — easiest options
 
-The finished **`dist`** folder can be hosted as ordinary static files. A straightforward option is Netlify's documented drag-and-drop deployment:
+### Netlify Drop — easiest, no coding
 
-1. Run `node build.mjs` and `node validate.mjs`.
-2. Sign in to Netlify and open [Netlify Drop](https://app.netlify.com/drop).
-3. Drag the **`dist` folder** into the upload area.
-4. Review the generated address and your project's visibility before sharing it with recruiters.
-5. For updates, rebuild and upload the refreshed `dist` folder to that project's deploy dropzone.
+1. Go to Netlify and create an account.
+2. Open Netlify Drop / manual deploy.
+3. Drag the entire `anil-reddy-portfolio-site` folder into the upload area.
+4. Netlify creates a public URL immediately.
+5. In Site settings, change the site name or connect a custom domain.
 
-Netlify also supports repository-based deployment; `netlify.toml` supplies the build command and output directory. See [Netlify's deployment instructions](https://docs.netlify.com/deploy/create-deploys/). For a custom domain, follow your host's domain settings and the DNS records it supplies; keep HTTPS enabled.
+### Vercel
 
-Sites hosting metadata is in `.openai/hosting.json`. A private Sites preview is only visible to its owner; it is not yet a public recruiter-facing link. Do not remove that metadata if continuing through Sites. Public sharing must be enabled deliberately.
+1. Create a GitHub repository.
+2. Upload all files from this folder to the repository root.
+3. Sign in to Vercel and choose **Add New Project**.
+4. Import the GitHub repository.
+5. Framework preset: **Other** / static site. No build command is needed.
+6. Deploy.
+7. Connect a custom domain from Project Settings → Domains.
 
-## Design study and remaining inputs
+### GitHub Pages
 
-See **`DESIGN-NOTES.md`** for the reference observations, decisions and limitations. Browser connection was unavailable, so live visual/mobile/interaction QA has not been completed. Before public release, review desktop and mobile widths, menu keyboard focus, playback/seeking/fullscreen and gallery behavior with your real photographs.
+1. Create a GitHub repository.
+2. Upload the project files.
+3. Open **Settings → Pages**.
+4. Under Source choose **Deploy from a branch**.
+5. Select `main` and `/root`.
+6. Save. GitHub will publish the site.
 
-Content is grounded in the supplied documents. The OTT page describes how filmmaking experience transfers to the role; it does not claim acquisition deal experience. A specific OTT company/job description and the BTS photographs would allow the final tailoring.
+## Recommended final setup
+
+For a professional portfolio, use either Netlify or Vercel and connect your own domain. Before public launch, compress videos or host them on Vimeo so the first page remains fast on mobile networks.
+
+## Design notes
+
+The website intentionally uses a five-page editorial structure rather than a resume-style one-page layout. The design gives moving-image work more visual space, keeps credits highly scannable, treats the OTT section as its own argument, and reserves a separate visual archive for BTS imagery.
+
+
+## Current media update
+- BTS gallery: 88 photographs total.
+- Latest added set: 13 Pelli Choopulu-era archive images.
+- `assets/anil-reddy-cv.pdf` is the current OTT CV supplied by Anil.
+- `assets/anil-reddy-portfolio.pdf` is the current final portfolio PDF supplied by Anil.
